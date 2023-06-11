@@ -7,82 +7,84 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 public class RadioTest {
 
-    @ParameterizedTest
-    @CsvSource({"0", "1", "6", "8", "9"})
-    public void shouldSetStationManually(int stationNumber) {
+    Radio customRadio = new Radio(104);
+
+    @Test
+    public void shouldSetDefaultStations() {
         Radio radio = new Radio();
 
-        radio.setCurrentStation(stationNumber);
+        Assertions.assertEquals(9, radio.getLastStation());
+    }
+
+    @ParameterizedTest
+    @CsvSource({"0", "1", "10", "58", "102", "103"})
+    public void shouldSetStationManually(int stationNumber) {
+        customRadio.setCurrentStation(stationNumber);
 
         int expected = stationNumber;
-        int actual = radio.getCurrentStation();
+        int actual = customRadio.getCurrentStation();
 
         Assertions.assertEquals(expected, actual);
     }
 
     @ParameterizedTest
-    @CsvSource({"-1000000", "-1", "10", "11", "2000"})
+    @CsvSource({"-1000000", "-1", "104", "105", "2000"})
     public void shouldNotSetStationManually(int stationNumber) {
-        Radio radio = new Radio();
 
-        int expected = radio.getCurrentStation();
-        radio.setCurrentStation(stationNumber);
+        int expected = customRadio.getCurrentStation();
+        customRadio.setCurrentStation(stationNumber);
 
-        int actual = radio.getCurrentStation();
+        int actual = customRadio.getCurrentStation();
 
         Assertions.assertEquals(expected, actual);
     }
 
     @ParameterizedTest
-    @CsvSource({"0", "1", "4"})
+    @CsvSource({"0", "1", "34", "102"})
     public void shouldTurnNextStation(int stationNumber) {
-        Radio radio = new Radio();
-        radio.setCurrentStation(stationNumber);
+        customRadio.setCurrentStation(stationNumber);
 
-        radio.nextStation();
+        customRadio.nextStation();
 
         int expected = stationNumber + 1;
-        int actual = radio.getCurrentStation();
+        int actual = customRadio.getCurrentStation();
 
         Assertions.assertEquals(expected, actual);
     }
 
     @Test
     public void shouldTurnFirstStation() {
-        Radio radio = new Radio();
-        radio.setCurrentStation(9);
+        customRadio.setCurrentStation(103);
 
-        radio.nextStation();
+        customRadio.nextStation();
 
         int expected = 0;
-        int actual = radio.getCurrentStation();
+        int actual = customRadio.getCurrentStation();
 
         Assertions.assertEquals(expected, actual);
     }
 
     @ParameterizedTest
-    @CsvSource({"1", "6", "9"})
+    @CsvSource({"1", "6", "10", "103"})
     public void shouldTurnPreviousStation(int stationNumber) {
-        Radio radio = new Radio();
-        radio.setCurrentStation(stationNumber);
+        customRadio.setCurrentStation(stationNumber);
 
-        radio.prevStation();
+        customRadio.prevStation();
 
         int expected = stationNumber - 1;
-        int actual = radio.getCurrentStation();
+        int actual = customRadio.getCurrentStation();
 
         Assertions.assertEquals(expected, actual);
     }
 
     @Test
     public void shouldTurnLastStation() {
-        Radio radio = new Radio();
-        radio.setCurrentStation(0);
+        customRadio.setCurrentStation(0);
 
-        radio.prevStation();
+        customRadio.prevStation();
 
-        int expected = 9;
-        int actual = radio.getCurrentStation();
+        int expected = 103;
+        int actual = customRadio.getCurrentStation();
 
         Assertions.assertEquals(expected, actual);
     }
@@ -90,26 +92,24 @@ public class RadioTest {
     @ParameterizedTest
     @CsvSource({"0", "58", "99"})
     public void shouldTurnUpVolume(int volLevel) {
-        Radio radio = new Radio();
-        radio.setCurrentVolume(volLevel);
+        customRadio.setCurrentVolume(volLevel);
 
-        radio.volumeUp();
+        customRadio.volumeUp();
 
         int expected = volLevel + 1;
-        int actual = radio.getCurrentVolume();
+        int actual = customRadio.getCurrentVolume();
 
         Assertions.assertEquals(expected, actual);
     }
 
     @Test
     public void shouldNotTurnUpVolume() {
-        Radio radio = new Radio();
-        radio.setCurrentVolume(100);
+        customRadio.setCurrentVolume(100);
 
-        radio.volumeUp();
+        customRadio.volumeUp();
 
         int expected = 100;
-        int actual = radio.getCurrentVolume();
+        int actual = customRadio.getCurrentVolume();
 
         Assertions.assertEquals(expected, actual);
     }
@@ -117,26 +117,24 @@ public class RadioTest {
     @ParameterizedTest
     @CsvSource({"1", "37", "100"})
     public void shouldTurnDownVolume(int volLevel) {
-        Radio radio = new Radio();
-        radio.setCurrentVolume(volLevel);
+        customRadio.setCurrentVolume(volLevel);
 
-        radio.volumeDown();
+        customRadio.volumeDown();
 
         int expected = volLevel - 1;
-        int actual = radio.getCurrentVolume();
+        int actual = customRadio.getCurrentVolume();
 
         Assertions.assertEquals(expected, actual);
     }
 
     @Test
     public void shouldNotTurnDownVolume() {
-        Radio radio = new Radio();
-        radio.setCurrentVolume(0);
+        customRadio.setCurrentVolume(0);
 
-        radio.volumeDown();
+        customRadio.volumeDown();
 
         int expected = 0;
-        int actual = radio.getCurrentVolume();
+        int actual = customRadio.getCurrentVolume();
 
         Assertions.assertEquals(expected, actual);
     }
@@ -144,11 +142,10 @@ public class RadioTest {
     @ParameterizedTest
     @CsvSource({"-1500", "-1", "101", "1000"})
     public void shouldNotSetRandomVolume(int volLevel) {
-        Radio radio = new Radio();
-        int expected = radio.getCurrentVolume();
+        int expected = customRadio.getCurrentVolume();
 
-        radio.setCurrentVolume(volLevel);
-        int actual = radio.getCurrentVolume();
+        customRadio.setCurrentVolume(volLevel);
+        int actual = customRadio.getCurrentVolume();
 
         Assertions.assertEquals(expected, actual);
     }
