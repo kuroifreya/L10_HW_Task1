@@ -1,31 +1,28 @@
 package ru.netology.radio;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+
 public class Radio {
     private int numberOfStations = 10;
     private int firstStation = 0;
     private int lastStation = numberOfStations - 1;
     private int currentStation = firstStation;
-    private int currentVolume;
     private int minVolume = 0;
     private int maxVolume = 100;
+    private int currentVolume;
 
-    public Radio(int numberOfStations) { //конструктор с одним параметром, принимающим желаемое количество радиостанций и сохраняющим это значение у себя в поле
+    public Radio(int numberOfStations) { //конструктор с одним параметром остается
         this.numberOfStations = numberOfStations;
         lastStation = this.numberOfStations - 1;
     }
 
-    public Radio() { //конструктор без параметров, оставляет кол-во станций по умолчанию (не поняла, зачем он нужен, ведь поля уже проинициализированы этими значениями)
-    }
-
-    public int getLastStation() {
-        return lastStation;
-    }
-
-    public int getCurrentStation() {
-        return currentStation;
-    }
-
-    public void setCurrentStation(int stationNumber) {
+    public void setCurrentStation(int stationNumber) { //сеттер для выбора станции остается
         if (stationNumber < firstStation) {
             return;
         }
@@ -33,10 +30,6 @@ public class Radio {
             return;
         }
         currentStation = stationNumber;
-    }
-
-    public int getCurrentVolume() {
-        return currentVolume;
     }
 
     public void setCurrentVolume(int volume) {
